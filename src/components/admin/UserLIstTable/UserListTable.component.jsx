@@ -33,9 +33,8 @@ const UserlistTable = () => {
     <div>
       <div>
         <h2>Manage User</h2>
-
         <Link to="/customers/add">
-          <button className="btn btn-primary mr-2">ADD MORE</button>
+          <button className="btn btn-primary mr-2 float-end">ADD</button>
         </Link>
       </div>
 

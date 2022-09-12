@@ -85,7 +85,7 @@ const EditUser = () => {
             />
           </div>
           <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
-          <button className="btn btn-primary">Edit USER</button>
+          <button className="btn btn-primary">Update</button>
         </form>
       </div>
     </div>

@@ -9,7 +9,7 @@ const Header = () => {
         <Container>
           <Navbar.Brand>
             <Link to={"#"} className="nav-link">
-              React MRTG app
+              MRTG App
             </Link>
           </Navbar.Brand>
 

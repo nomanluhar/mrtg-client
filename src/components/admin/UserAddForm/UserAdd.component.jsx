@@ -36,7 +36,6 @@ const UserAdd = () => {
     setMrtgValue(newMrtgValues);
   };
 
-
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const onChange = (e) => {
@@ -59,11 +58,12 @@ const UserAdd = () => {
       <div className="w-75 mx-auto shadow p-5">
         <h2 className="text-center mb-4">ADD A USER</h2>
         <form onSubmit={(e) => onSubmit(e)}>
-          <div className="form-group">
+          <div>
+            <label className="form-label">Full Name:</label>
             <input
               type="text"
               id="full_name"
-              className="form-control form-control-lg"
+              className="form-control"
               name="full_name"
               placeholder="Full Name"
               value={values.full_name}
@@ -71,11 +71,12 @@ const UserAdd = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div>
+            <label className="form-label">Email:</label>
             <input
               type="email"
               id="email"
-              className="form-control form-control-lg"
+              className="form-control"
               name="email"
               placeholder="E-Mail"
               value={values.email}
@@ -83,10 +84,11 @@ const UserAdd = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div>
+            <label className="form-label">User Name:</label>
             <input
               type="text"
-              className="form-control form-control-lg"
+              className="form-control"
               id="User_name"
               name="user_name"
               placeholder="User Name"
@@ -95,39 +97,45 @@ const UserAdd = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div>
+            <label className="form-label">Password:</label>
             <input
               type="password"
-              className="form-control form-control-lg"
+              className="form-control"
               id="password"
               name="password"
-              placeholder="Enter your password"
+              placeholder="Password"
               value={values.password}
               onChange={(e) => onChange(e)}
             />
           </div>
-
+          <h2 className="text-center mb-4">MRTG INFO</h2>
           <div className="form-group">
             {mrtgValue.map((element, index) => (
               <div className="form-inline" key={index}>
-                <label>Name</label>
+                <label className="form-label">Name:</label>
                 <input
                   type="text"
+                  id="name"
                   name="name"
+                  placeholder="MRTG Name"
                   value={element.name || ""}
                   onChange={(e) => handleChange(index, e)}
+                  required
                 />
-                <label>MRTG URL</label>
+                <label>URL:</label>
                 <input
-                  type="text"
+                  type="url"
+                  id="url"
                   name="url"
                   value={element.url || ""}
                   onChange={(e) => handleChange(index, e)}
+                  required
                 />
                 {index ? (
                   <button
                     type="button"
-                    className="button remove"
+                    className="btn btn-sm btn-secondary"
                     onClick={() => removeFormFields(index)}
                   >
                     Remove
@@ -135,20 +143,18 @@ const UserAdd = () => {
                 ) : null}
 
                 <button
-                  className="button add"
+                  className="btn btn-sm btn-dark"
                   type="button"
                   onClick={() => addFormFields()}
                 >
-                  Add
+                  Add More
                 </button>
               </div>
             ))}
           </div>
 
           <div style={{ color: "red", margin: "10px 0" }}>{error}</div>
-          <button type="submit" className="btnSubmit">
-            Add User
-          </button>
+          <button className="btn btn-primary">Add</button>
         </form>
       </div>
     </div>
