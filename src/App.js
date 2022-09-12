@@ -24,9 +24,11 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/customers" element={<UserlistTable />} />
             <Route path="/customers/add" element={<UserAdd />} />
+            <Route path="/customers/:id" element={<EditUser/>} />
+
           {/* <Route path="/mrtg" element={<MrtgForm/>}/>
           <Route path="/dashboard" element={<UserDashboard/>}/> 
-          <Route path="/customers/:id" element={<EditUser/>}/> */}
+         */}
             {/* <Route path="customers/:id" element/>
           <Route path="customers/:id" element/> */}
           </Routes>

@@ -1,78 +1,95 @@
-// import React from "react";
-// import { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import { useParams,useNavigate } from "react-router-dom";
+import { fetchSingleCustomer, onEditCustomer } from "../../../api/api";
 
-// const EditUser = () => {
-//   const [ editUser, setEditUser ] = useState([]);
+const EditUser = () => {
+  let { id } = useParams();
+  const navigate = useNavigate();
+  const initialState = {
+    full_name: "",
+    email: "",
+    user_name: "",
+    password: "",
+    user_type: "customer",
+  };
+  const [values, setValues] = useState(initialState);
+  const [error, setError] = useState(false);
+  const loadOneCustomer = async () => {
+    const response = await fetchSingleCustomer(id);
+    setValues(response?.data?.customer);
+  };
 
-//   const handleInputChange = (event) => {
+  const onChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
+  useEffect(() => {
+    try {
+      loadOneCustomer();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
 
-//   }
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await onEditCustomer(values);
+      navigate('/customers');
+    } catch (error) {
+      console.log(error)
+      setError(error.message);
+    }
+  }
 
-//   const handleSubmit = (event)=> {
-//     event.preventDefault()
-//   }
+  return (
+    <div className="container">
+      <div className="w-75 mx-auto shadow p-5">
+        <h2 className="text-center mb-4">EDIT USER</h2>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <input type="hidden" name="_id" />
+          <div className="form-group">
+            <input
+              type="text"
+              id="full_name"
+              className="form-control form-control-lg"
+              name="full_name"
+              placeholder="Full Name"
+              value={values.full_name}
+              onChange={(e) => onChange(e)}
+            />
+          </div>
 
+          <div className="form-group">
+            <input
+              type="email"
+              id="email"
+              className="form-control form-control-lg"
+              name="email"
+              placeholder="E-Mail"
+              value={values.email}
+              onChange={(e) => onChange(e)}
+            />
+          </div>
 
-//   return (
-//     <div className="container">
-//       <div className="w-75 mx-auto shadow p-5">
-//         <h2 className="text-center mb-4">ADD A USER</h2>
-//         <form onSubmit={handleSubmit}>
-//           <div className="form-group">
-//             <input
-//               type="text"
-//               id="username"
-//               className="form-control form-control-lg"
-//               name="username"
-//               placeholder="Enter your Username"
-//               value={username}
-//               onChange={handleInputChange}
-//             />
-//           </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              id="User_name"
+              name="user_name"
+              placeholder="User Name"
+              value={values.user_name}
+              onChange={(e) => onChange(e)}
+            />
+          </div>
+          <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
+          <button className="btn btn-primary">Edit USER</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-//           <div className="form-group">
-//             {/* <label htmlFor="email">email</label> */}
-//             <input
-//               type="email"
-//               id="email"
-//               className="form-control form-control-lg"
-//               name="email"
-//               placeholder="Enter your Email"
-//               value={email}
-//               onChange={handleInputChange}
-//             />
-//           </div>
-
-//           <div className="form-group">
-//             <input
-//               type="text"
-//               className="form-control form-control-lg"
-//               id="name"
-//               name="name"
-//               placeholder="Enter your name "
-//               value={name}
-//               onChange={handleInputChange}
-//             />
-//           </div>
-
-//           <div className="form-group">
-//             <input
-//               type="password"
-//               className="form-control form-control-lg"
-//               id="password"
-//               name="password"
-//               placeholder="Enter your password"
-//               value={password}
-//               onChange={handleInputChange}
-//             />
-//           </div>
-
-//           <button className="btn btn-primary">Edit USER</button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default EditUser;
+export default EditUser;

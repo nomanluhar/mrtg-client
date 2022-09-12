@@ -9,7 +9,7 @@ const Login = () => {
     email: '',
     password: '',
   });
-
+  const navigate = useNavigate();
   const [error, setError] = useState(false);
 
   const onChange = (e) => {
@@ -18,18 +18,17 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    
     try {
       const response = await onLogin(values);
       const userType = response.data.type;
-      if (userType == 'admin') {
-        return <> <useNavigate to='/customers' /> </>
-      } else if (userType == 'customer') {
-        <useNavigate to='/dashboard' />
-      }
+      if (userType === 'admin') {
+        navigate('/customers');
+      } else if (userType === 'customer') {
+        navigate('/dashboard');
+      };
     } catch (error) {
       console.log(error)
-      setError(error.response.data.errors[0].msg);
+      setError(error.message);
     }
   }
   
