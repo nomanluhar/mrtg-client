@@ -1,24 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { onAddCustomers } from "../../../api/api";
-// import Modal from "react-bootstrap/Modal";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
+import { onAddCustomers, fetchSingleCustomer } from "../../../api/api";
 
-const UserAdd = () => {
-  const [values, setValues] = useState({
-    _id: "",
-    full_name: "",
-    email: "",
-    user_name: "",
-    password: "",
-    user_type: "customer",
-  });
+var initialState = {
+  _id: "",
+  full_name: "",
+  email: "",
+  user_name: "",
+  password: "",
+  user_type: "customer",
+};
 
-  const initialStateForArray = [{ name: "", MRTG_URL: "" }];
+const initialStateForArray = [{ name: "", url: "" }];
+
+const UserAdd = ({ title }) => {
+  let { id } = useParams();
+
+  const [values, setValues] = useState(initialState);
 
   const [mrtgValue, setMrtgValue] = useState(initialStateForArray);
+  useEffect(() => {
+    if (id) {
+      loadOneCustomer();
+    }
+  });
+
+  const loadOneCustomer = async () => {
+    const response = await fetchSingleCustomer(id);
+    // setValues(response?.data?.customer);
+  };
+
+
+
 
   const handleChange = (i, e) => {
     let newMrtgValues = [...mrtgValue];
@@ -27,7 +41,7 @@ const UserAdd = () => {
   };
 
   const addFormFields = () => {
-    setMrtgValue([...mrtgValue, { name: "", MRTG_URL: "" }]);
+    setMrtgValue([...mrtgValue, { name: "", url: "" }]);
   };
 
   const removeFormFields = (i) => {
@@ -38,6 +52,7 @@ const UserAdd = () => {
 
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -45,7 +60,7 @@ const UserAdd = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await onAddCustomers(values);
+      await onAddCustomers(values, mrtgValue);
       navigate("/customers");
     } catch (error) {
       console.log(error);
@@ -56,8 +71,9 @@ const UserAdd = () => {
   return (
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
-        <h2 className="text-center mb-4">ADD A USER</h2>
+        <h2 className="text-center mb-4">{title}</h2>
         <form onSubmit={(e) => onSubmit(e)}>
+          <input type="hidden" name="_id" />
           <div>
             <label className="form-label">Full Name:</label>
             <input
@@ -96,19 +112,21 @@ const UserAdd = () => {
               onChange={(e) => onChange(e)}
             />
           </div>
-
-          <div>
-            <label className="form-label">Password:</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              placeholder="Password"
-              value={values.password}
-              onChange={(e) => onChange(e)}
-            />
-          </div>
+          {
+            !id ?
+              <div>
+                <label className="form-label">Password:</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={(e) => onChange(e)}
+                />
+              </div> : ''
+          }
           <h2 className="text-center mb-4">MRTG INFO</h2>
           <div className="form-group">
             {mrtgValue.map((element, index) => (
@@ -119,16 +137,16 @@ const UserAdd = () => {
                   id="name"
                   name="name"
                   placeholder="MRTG Name"
-                  value={element.name || ""}
+                  value={values.name}
                   onChange={(e) => handleChange(index, e)}
                   required
                 />
                 <label>URL:</label>
                 <input
-                  type="url"
+                  type="text"
                   id="url"
                   name="url"
-                  value={element.url || ""}
+                  value={values.url}
                   onChange={(e) => handleChange(index, e)}
                   required
                 />

@@ -24,11 +24,11 @@ const Login = () => {
       if (userType === 'admin') {
         navigate('/customers');
       } else if (userType === 'customer') {
-        navigate('/dashboard');
+        navigate(`/dashboard/:${response.data.user}`);
       };
     } catch (error) {
-      console.log(error)
-      setError(error.message);
+      console.log(error.response)
+      setError(error.response.data.message);
     }
   }
   

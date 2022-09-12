@@ -10,7 +10,7 @@ import Home from "./components/Home/home.component";
 import UserlistTable from "./components/admin/UserLIstTable/UserListTable.component";
 import EditUser from "./components/admin/UserEdit/UserEdit.component";
 import MrtgForm from "./components/admin/MrtgForm/MrtgForm/MrtgForm.component";
-
+import MrtgUrlAndName from "./components/mrtg/MrtgUrl.component";
 
 // import userCreateForm from "./components/admin/admin-UserCreateform/admin-Usercreate-form.component";
 
@@ -23,9 +23,10 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/customers" element={<UserlistTable />} />
-            <Route path="/customers/add" element={<UserAdd />} />
-            <Route path="/customers/:id" element={<EditUser/>} />
-
+            <Route path="/customers/add" element={<UserAdd title = {'ADD A USER'} />} />
+            <Route path="/customers/:id" element={<UserAdd title = {'EDIT A USER'} />} />
+            <Route path="/customers/:id/mrtg" element={<MrtgUrlAndName/>}/>
+            <Route path="/dashboard/:id" element={<UserDashboard/>}/>
           {/* <Route path="/mrtg" element={<MrtgForm/>}/>
           <Route path="/dashboard" element={<UserDashboard/>}/> 
          */}
