@@ -1,8 +1,12 @@
 import React from "react";
-import { Nav, Navbar, Container} from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Nav, Navbar, Container } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
+  const location = useLocation();
+
+  const showRoute = (location.pathname == '/login' || location.pathname.match('/dashboard/')) ? false : true;
+  
   return (
     <header className="App-header">
       <Navbar bg="dark" variant="dark">
@@ -12,19 +16,15 @@ const Header = () => {
               MRTG App
             </Link>
           </Navbar.Brand>
-
-          {/* <Nav className="justify-content-end">
-            <Nav>
-              <Link to={"/customers/add"} className="nav-link">
-                Create New User
-              </Link>
-            </Nav> */}
-
+          { showRoute ? (
             <Nav>
               <Link to={"/customers"} className="nav-link">
                 Users List
               </Link>
             </Nav>
+          ) : (
+            ""
+          )}
         </Container>
       </Navbar>
     </header>

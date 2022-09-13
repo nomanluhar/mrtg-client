@@ -65,7 +65,7 @@ const UserlistTable = () => {
                   <Link to={`/customers/${user.id}`}>
                     <button className="btn btn-secondary mr-2 ">Edit</button>
                   </Link>
-
+                  {" "}
                   <button
                     className="btn btn-danger sm me-2"
                     onClick={(e) => onRemove(e, user)}

@@ -7,7 +7,6 @@ var initialState = {
   full_name: "",
   email: "",
   user_name: "",
-  password: "",
   user_type: "customer",
 }
 
@@ -22,13 +21,14 @@ const UserDashboard = () => {
       loadOneCustomer();
     }
   });
-
+  
   const loadOneCustomer = async () => {
     const response = await fetchSingleCustomer(id);
-    console.log(response.data.customer)
-    // setValues(response?.data?.customer);
+    console.log(response)
+    // console.log(response.data.customer)
+    // setValues(response);
   };
-
+  
   return (
     <div>
       <div>

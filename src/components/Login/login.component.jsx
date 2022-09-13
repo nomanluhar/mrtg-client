@@ -24,7 +24,7 @@ const Login = () => {
       if (userType === 'admin') {
         navigate('/customers');
       } else if (userType === 'customer') {
-        navigate(`/dashboard/:${response.data.user}`);
+        navigate(`/dashboard/${response.data.user.id}`);
       };
     } catch (error) {
       console.log(error.response)
@@ -35,15 +35,15 @@ const Login = () => {
   return (
     <div className="container-login-container">
       <div className="row">
-        <h3>Login form</h3>
+        <h3 className="text-center">Login form</h3>
         <div className="d-flex justify-content-center md-8 login-form-1">
           <form onSubmit={(e) => onSubmit(e)}>
-            <div className="form-group">
-              <label>Your Email</label>
+            <div className="mb-2">
+              <label>Your Email:</label>
               <input onChange={(e) => onChange(e)} name="email" type="email" className="form-control" value={values.email} placeholder='test@gmail.com' required />
             </div>
-            <div className="form-group">
-              <label>Your Password</label>
+            <div className="mb-2">
+              <label>Your Password:</label>
               <input onChange={(e) => onChange(e)} name="password" type="password" className="form-control" value={values.password} placeholder='password' required />
             </div>
             <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
